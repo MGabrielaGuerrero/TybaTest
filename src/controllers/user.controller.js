@@ -33,9 +33,15 @@ const singIn = async (req, res) => {
 
 };
 
+const signOut = async (req, res) => {
+  // invalidar el token
+  res.json({ msg:  'Logged out successfully' });
+};
+
 
 
 module.exports = {
   userAdd,
   singIn,
+  signOut
 };

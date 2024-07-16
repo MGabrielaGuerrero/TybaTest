@@ -1,8 +1,9 @@
 const axios = require('axios');
+const { logTransaction } = require('./transaction.controller');
 
 exports.getRestaurants = async (req, res) => {
   try {
-    const { city } = req.body.data;
+    const { city, userName } = req.body.data;
     console.log("🚀 ~ exports.getRestaurants= ~ city:", city)
 
     // Primero, obtenemos las coordenadas de la ciudad
@@ -30,6 +31,11 @@ exports.getRestaurants = async (req, res) => {
     });
 
     console.log("🚀 ~ exports.getRestaurants= ~ response:", response.data.results);
+    // Registrar la transacción
+    await logTransaction(
+      userName,
+      'RESTAURANT_SEARCH'
+    );
     res.status(200).json(response.data.results);
   } catch (error) {
     console.error('Error al obtener restaurantes:', error);
