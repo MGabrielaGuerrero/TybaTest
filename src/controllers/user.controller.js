@@ -7,7 +7,7 @@ const userAdd = async (req, res) => {
   console.log("🚀 ~ userAdd ~ req:", req.body.data)
   const { userName, mail, password } = req.body.data;
   try {
-    const user = new User({ userName, mail, password });
+    const user = new User({ userName, mail, password: bcrypt.hashSync(password, 10) });
     await user.save();
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     // Registrar la transacción
